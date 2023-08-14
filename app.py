@@ -1,12 +1,13 @@
 import pickle
-import streamlit as st
+import streamlit as st  
 import requests
 
 st.header("Movie Recommendation System using Machine learning")
-movies = pickle.load(open('movie_list.pkl','rb'))
-similar = pickle.load(open('similarity.pkl','rb'))
+movies = pickle.load(open('movie_list.pk','rb')) #your pkl file
+similar = pickle.load(open('similarity.pkl','rb')) #your pkl file
 
 
+#Fetching poster
 def fetch_poster(movie_id):
     url = "https://api.themoviedb.org/3/movie/{}?api_key=a0dc2fff0c07d0687ac096451b02469d".format(movie_id)
     data = requests.get(url)
@@ -15,7 +16,7 @@ def fetch_poster(movie_id):
     full_path = "https://image.tmdb.org/t/p/w500" + poster_path
     return full_path
 
-
+#Recommend function
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]
     distance = sorted(list(enumerate(similar[index])), reverse=True, key=lambda x: x[1])
